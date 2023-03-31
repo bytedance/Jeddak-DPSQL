@@ -1,0 +1,123 @@
+Analysis rules (unfinalized version)
+1. Structure block feature number：
+1001：Contains the with block
+1002：Does not contain a with block
+1003：Include select block
+1004：Does not contain select block
+1005：Contains the from block
+1006：Does not contain the from block
+1007：Contains where block
+1008：Does not contain where block
+1009：Contains the group by block
+1010：Does not contain group by blocks
+1011：Contains the having block
+1012：Does not contain the having block
+1013：Contains the order by block
+1014：Does not contain order by block
+
+1101：Contains aggregate functions
+1102：Does not contain aggregate functions
+1103：Contain '*' select
+2. Hierarchical feature number：
+2001：Outermost layer or layer 1
+2002：Second outer layer or layer 2
+2003：Secondary Outer Layer or Layer 3
+2004：Layer 4
+2005：Layer 5
+2006：Innermost layer
+2007：Sub-inner layer
+2008：Secondary inner layer
+
+2101：All layers
+2102：Inner layer (other layers after removing the outermost layer)
+
+3. Aggregate function characteristic number：
+3001：sum
+3002：count
+3003：avg
+3004：max
+3005：min
+3006：varPop
+3007：stddevPop
+
+3101：agg（任意聚合函数）
+
+4. JOIN特征编号：
+4001：no_join（无join）
+4002：join_count_2 （相互join的元素数量为2）
+4003：join_count_3 （相互join的元素数量为3）
+4004：join_count_n （相互join的元素数量大于3）
+4005：inner_join_key（聚合点参与当前层内部相互join的key运算）
+4006：outer_join_key（聚合点参与当前层外部相互join的key运算）
+
+
+
+五、规则json模板如下（未完待续）：
+
+{
+    // 代表通过下面的规则匹配到的聚合函数的处理方式
+    // 0 代表执行加噪，1代表不执行加噪
+    // 可以同时添加多个配置块进行控制
+    "action":0,
+    "msg": "您输入的SQL中不包含聚合函数，禁止查询",
+    // 规则编号
+    "rule_code": "5001",
+
+    // 加噪点结构信息
+    "struct_info":{
+        // 整条SQL必须存在的语法块结构特性
+        "whole_block_feature":[1,5],
+        // 整条SQL不能存在的语法块结构特性
+        "whole_block_filter":[],
+        // 聚合函数可以存在的语法块
+        "agg_block_feature":[1,2],
+        // 聚合函数不可以存在的语法块
+        "agg_block_filter":[3,4],
+        // 可以存在的Join块结构特性，统计范围为本SQ(聚合点所属)内部数据源的Join特性
+        "inner_join_feature":[1,2,3],
+        // 不能存在的Join块结构特性，统计范围为本SQ(聚合点所属)内部数据源的Join特性
+        "inner_join_filter":[4,5],
+        // 可以存在的Join块结构特性，统计范围为本SQ(聚合点所属)与相邻SQ的Join特性
+        "outer_join_feature":[1,2,3,4],
+        // 不能存在的Join块结构特性，统计范围为本SQ(聚合点所属)与相邻SQ的Join特性
+        "outer_join_filter":[6]
+        },
+
+    "agg_info":{
+        // 聚合函数可以存在的层级，最外层为1
+        "query_scope_feature":[1,2,3],
+        // 聚合函数不可以存在的层级，最外层为1
+        "query_scope_filter":["4_u"],
+        // 聚合函数可以存在的类型
+        "agg_type_feature":[1,2,3,4,5,6,7,8],
+        // 聚合函数不可以存在的类型
+        "agg_type_filter":[]
+    },
+
+    "depend_info":{
+        // 依赖值下界
+        "depend_value_min":0,
+        // 依赖值上界
+        "depend_value_max":10000,
+        // 可以包含在依赖列表中的类型(AST中的类型取值)
+        "depend_type_feature":[],
+        // 不可以包含在依赖列表中的类型(AST中的类型取值)
+        "depend_type_filter":["120-149"]
+    },
+
+    "influence_info":{
+        // 影响面下界
+        "influence_surface_min":0,
+        // 影响面上界
+        "influence_surface_max":10000,
+        // 影响值下界
+        "influence_value_min":0,
+        // 影响值上界
+        "influence_value_max":0,
+        // 可以包含在影响列表中的类型(AST中的类型取值)
+        "influence_type_feature":[],
+        // 不可以包含在影响列表中的类型(AST中的类型取值)
+        "depend_type_filter":["120-149"]
+    }
+
+}

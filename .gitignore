@@ -1,0 +1,65 @@
+__pycache__
+.DS_Store
+*.class
+__pycache__
+.DS_Store
+*.class
+*.pyc
+.idea
+*.model
+*.log
+running/
+pid
+idls
+idls/
+##############################
+## python
+##############################
+**/migrations
+log/
+logs/
+##############################
+## IntelliJ
+##############################
+out/
+.idea/
+.idea_modules/
+*.iml
+##############################
+## Eclipse
+##############################
+.settings/
+.classpath
+.project
+##############################
+## OS X
+##############################
+.DS_Store
+##############################
+## Maven
+##############################
+target/
+##############################
+## Gradle
+##############################
+bin/
+build/
+.pytest_cache
+
+venv/
+dbaccess/clickhouse/cache
+dbaccess/clickhouse/authorization
+bytedc/cache
+
+node_modules/
+commitlint.config.js
+package-lock.json
+package.json
+.husky/
+
+*.interp
+*.tokens
+
+.vscode
+.metals
+http_service/utils/cache

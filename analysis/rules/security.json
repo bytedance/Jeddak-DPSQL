@@ -1,0 +1,14 @@
+{
+    "action":90001,
+    "msg": "The SQL you entered does not contain an aggregate function, and the query is prohibited",
+    "rule_code": 50001,
+
+    "struct_info":[
+        {
+            "scope": 2101,
+            "blocks": [1202],
+            "features": [3098]
+        }
+    ]
+
+}
